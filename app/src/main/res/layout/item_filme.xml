@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_movie"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:padding="8dp">
+
+        <!-- Poster (placeholder) -->
+        <ImageView
+            android:id="@+id/ivPoster"
+            android:layout_width="84dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_report_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvMovieTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Título do Filme"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/ivPoster"
+            app:layout_constraintTop_toTopOf="@id/ivPoster"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp" />
+
+        <!-- Short description -->
+        <TextView
+            android:id="@+id/tvMovieDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Descrição curta..."
+            android:textSize="13sp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            app:layout_constraintStart_toStartOf="@id/tvMovieTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvMovieTitle"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Buttons: Marcar assistido + Avaliar -->
+        <LinearLayout
+            android:id="@+id/btnBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvMovieTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/btnMarkWatched"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Marcar assistido" />
+
+            <Button
+                android:id="@+id/btnRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Avaliar"
+                android:layout_marginStart="8dp"
+                android:enabled="false"
+                />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

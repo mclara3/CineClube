@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_watched"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="2dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/tvWatchedTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Título do filme"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvWatchedDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Data assistido: 01/01/2025"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvWatchedRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Avaliação: 8 — Comentário: Muito bom!"
+            android:textSize="13sp"
+            android:layout_marginTop="4dp"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
