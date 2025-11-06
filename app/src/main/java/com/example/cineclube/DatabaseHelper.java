@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "cineclube.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -23,12 +23,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "email TEXT NOT NULL UNIQUE, " +
                 "senha TEXT NOT NULL)");
 
-        // Tabela de filmes
+        // Tabela de filmes com título, descrição, gênero e ano
         db.execSQL("CREATE TABLE filmes (" +
                 "id_filme INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "titulo TEXT NOT NULL, " +
+                "titulo TEXT NOT NULL UNIQUE, " +   // UNIQUE para evitar duplicados
                 "descricao TEXT, " +
+                "genero TEXT, " +
+                "ano INTEGER, " +
                 "nota_media REAL DEFAULT 0)");
+
 
         // Tabela de avaliações
         db.execSQL("CREATE TABLE avaliacoes (" +
@@ -59,11 +62,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "PRIMARY KEY (id_usuario, id_filme), " +
                 "FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE, " +
                 "FOREIGN KEY (id_filme) REFERENCES filmes(id_filme) ON DELETE CASCADE)");
+
+        // Inserir 5 filmes iniciais
+        insertInitialMovies(db);
     }
+
+    public void insertInitialMovies(SQLiteDatabase db) {
+        db.execSQL("INSERT OR IGNORE INTO filmes (titulo, descricao, genero, ano) VALUES " +
+                "('O Poderoso Chefão', 'A história da família Corleone.', 'Crime/Drama', 1972)," +
+                "('Interestelar', 'Viagem espacial para salvar a humanidade.', 'Ficção Científica', 2014)," +
+                "('A Origem', 'Um ladrão invade sonhos para roubar segredos.', 'Ficção Científica/Ação', 2010)," +
+                "('Clube da Luta', 'A vida de um homem muda ao conhecer o clube da luta.', 'Drama', 1999)," +
+                "('Forrest Gump', 'A vida extraordinária de Forrest Gump.', 'Drama/Romance', 1994)"
+        );
+    }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Atualiza o banco se mudar a versão
         db.execSQL("DROP TABLE IF EXISTS filmes_assistidos");
         db.execSQL("DROP TABLE IF EXISTS comentarios");
         db.execSQL("DROP TABLE IF EXISTS avaliacoes");
