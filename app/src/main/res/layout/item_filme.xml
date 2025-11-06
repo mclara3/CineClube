@@ -5,42 +5,71 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
         android:padding="8dp">
 
-        <!-- Poster (placeholder) -->
+        <!-- Poster -->
         <ImageView
             android:id="@+id/ivPoster"
-            android:layout_width="84dp"
-            android:layout_height="0dp"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:src="@android:drawable/ic_menu_report_image"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/poster_filme"
+            android:background="@drawable/borda_poster"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-
-
-        <!-- Title -->
+        <!-- Título -->
         <TextView
             android:id="@+id/tvMovieTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Título do Filme"
             android:textStyle="bold"
-            android:textSize="16sp"
+            android:textSize="17sp"
+            android:textColor="#000000"
             app:layout_constraintStart_toEndOf="@id/ivPoster"
             app:layout_constraintTop_toTopOf="@id/ivPoster"
-            app:layout_constraintEnd_toStartOf="@id/tvMovieRating"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp" />
 
-        <!-- Nota do Filme -->
+        <!-- Ano e Gênero -->
+        <TextView
+            android:id="@+id/tvMovieYearGenre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="2023 • Ação"
+            android:textSize="13sp"
+            android:textColor="#666666"
+            app:layout_constraintStart_toStartOf="@id/tvMovieTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvMovieTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp" />
+
+        <!-- Descrição -->
+        <TextView
+            android:id="@+id/tvMovieDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Descrição do filme aqui"
+            android:textSize="14sp"
+            android:textColor="#444444"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintStart_toStartOf="@id/tvMovieTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvMovieYearGenre"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp" />
+
+        <!-- Nota -->
         <TextView
             android:id="@+id/tvMovieRating"
             android:layout_width="wrap_content"
@@ -48,46 +77,16 @@
             android:text="4.5 ★"
             android:textSize="14sp"
             android:textColor="#FFD700"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvMovieTitle"/>
+            app:layout_constraintTop_toTopOf="@id/tvMovieTitle"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-
-        <!-- Description -->
-        <TextView
-            android:id="@+id/tvMovieDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Descrição do filme aqui"
-            android:textSize="14sp"
-            android:textColor="#333333"
-            android:ellipsize="end"
-            android:maxLines="1"
-            app:layout_constraintStart_toStartOf="@id/tvMovieTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvMovieYearGenre"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="4dp"/>
-
-
-        <!-- Year and Genre -->
-        <TextView
-            android:id="@+id/tvMovieYearGenre"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="2023 • Ação"
-            android:textSize="13sp"
-            android:textColor="#555555"
-            app:layout_constraintStart_toStartOf="@id/tvMovieTitle"
-            app:layout_constraintTop_toBottomOf="@id/tvMovieTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="4dp" />
-
-
-        <!-- Buttons: Marcar assistido + Avaliar -->
+        <!-- Botões -->
         <LinearLayout
             android:id="@+id/btnBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/tvMovieTitle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:text="Avaliar"
                 android:layout_marginStart="8dp"
-                android:enabled="false"/>
+                android:enabled="false" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

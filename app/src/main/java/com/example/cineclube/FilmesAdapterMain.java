@@ -39,8 +39,27 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
         holder.tvDescription.setText(filme.getDescricao());
         holder.tvRating.setText(String.format("%.1f ★", filme.getNotaMedia()));
 
-        // Placeholder do poster
-        holder.ivPoster.setImageResource(R.drawable.ic_poster_placeholder);
+        // Define o pôster conforme o nome do filme
+        switch (filme.getTitulo()) {
+            case "A Origem":
+                holder.ivPoster.setImageResource(R.drawable.origin);
+                break;
+            case "Clube da Luta":
+                holder.ivPoster.setImageResource(R.drawable.club);
+                break;
+            case "Forrest Gump":
+                holder.ivPoster.setImageResource(R.drawable.gump);
+                break;
+            case "Interestelar":
+                holder.ivPoster.setImageResource(R.drawable.inter);
+                break;
+            case "O Poderoso Chefão":
+                holder.ivPoster.setImageResource(R.drawable.podchef);
+                break;
+            default:
+                holder.ivPoster.setImageResource(R.drawable.ic_poster_placeholder);
+                break;
+        }
 
         holder.btnMarkWatched.setOnClickListener(v -> {
             // lógica para marcar assistido
@@ -67,7 +86,7 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
             tvTitle = itemView.findViewById(R.id.tvMovieTitle);
             tvYearGenre = itemView.findViewById(R.id.tvMovieYearGenre);
             tvDescription = itemView.findViewById(R.id.tvMovieDescription);
-            tvRating = itemView.findViewById(R.id.tvMovieRating); // <- nota
+            tvRating = itemView.findViewById(R.id.tvMovieRating);
             btnMarkWatched = itemView.findViewById(R.id.btnMarkWatched);
             btnRate = itemView.findViewById(R.id.btnRate);
         }
