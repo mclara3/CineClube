@@ -17,7 +17,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login); // o nome do seu XML
+        setContentView(R.layout.activity_login);
 
         usuarioDAO = new UsuarioDAO(this);
 
@@ -42,8 +42,10 @@ public class LoginActivity extends AppCompatActivity {
                     tvInfo.setText("Login realizado com sucesso!");
                     tvInfo.setVisibility(TextView.VISIBLE);
 
-                    // Vai pra tela principal
-                    startActivity(new Intent(this, MainActivity.class));
+                    // Envia email do usuário para o MainActivity
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("user_email", email);
+                    startActivity(intent);
                     finish();
                 } else {
                     tvInfo.setText("E-mail ou senha incorretos!");

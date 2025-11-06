@@ -28,6 +28,11 @@
         <!-- Tela principal do app -->
         <activity android:name=".MainActivity" />
 
+        <activity android:name=".MinhaContaActivity" />
+
+        <activity android:name=".EditarContaActivity" />
+
+
     </application>
 
 </manifest>
