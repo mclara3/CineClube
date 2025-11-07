@@ -76,36 +76,32 @@
             android:layout_height="wrap_content"
             android:text="4.5 ★"
             android:textSize="14sp"
-            android:textColor="#FFD700"
+            android:textColor="#AFA015"
             app:layout_constraintTop_toTopOf="@id/tvMovieTitle"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Botões -->
         <LinearLayout
             android:id="@+id/btnBar"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
+            android:gravity="end|center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tvMovieTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp">
-
-            <Button
-                android:id="@+id/btnMarkWatched"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Marcar assistido" />
+            android:layout_marginEnd="8dp">
 
             <Button
                 android:id="@+id/btnRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Avaliar"
-                android:layout_marginStart="8dp"
-                android:enabled="false" />
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="2dp"
+                android:text="Avaliar" />
+
         </LinearLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

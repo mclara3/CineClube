@@ -1,6 +1,7 @@
 package com.example.cineclube;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,14 @@ import java.util.List;
 
 public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.FilmeViewHolder> {
 
-    private Context context;
-    private List<Filme> filmes;
+    private final Context context;
+    private final List<Filme> filmes;
+    private final int idUsuario; // ✅ Adicionado para saber qual usuário está logado
 
-    public FilmesAdapterMain(Context context, List<Filme> filmes) {
+    public FilmesAdapterMain(Context context, List<Filme> filmes, int idUsuario) {
         this.context = context;
         this.filmes = filmes;
+        this.idUsuario = idUsuario;
     }
 
     @NonNull
@@ -61,12 +64,13 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
                 break;
         }
 
-        holder.btnMarkWatched.setOnClickListener(v -> {
-            // lógica para marcar assistido
-        });
-
+        // ✅ Clique do botão "Avaliar"
         holder.btnRate.setOnClickListener(v -> {
-            // lógica para avaliar
+            Intent intent = new Intent(context, AvaliarFilme.class);
+            intent.putExtra("id_filme", filme.getId());
+            intent.putExtra("id_usuario", idUsuario);
+            intent.putExtra("filme_titulo", filme.getTitulo());
+            context.startActivity(intent);
         });
     }
 
@@ -78,7 +82,7 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
     public static class FilmeViewHolder extends RecyclerView.ViewHolder {
         ImageView ivPoster;
         TextView tvTitle, tvYearGenre, tvDescription, tvRating;
-        Button btnMarkWatched, btnRate;
+        Button btnRate;
 
         public FilmeViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,7 +91,6 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
             tvYearGenre = itemView.findViewById(R.id.tvMovieYearGenre);
             tvDescription = itemView.findViewById(R.id.tvMovieDescription);
             tvRating = itemView.findViewById(R.id.tvMovieRating);
-            btnMarkWatched = itemView.findViewById(R.id.btnMarkWatched);
             btnRate = itemView.findViewById(R.id.btnRate);
         }
     }

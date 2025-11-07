@@ -25,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rvMovies;
     private List<Filme> filmes;
 
+    private int idUsuario;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,20 +35,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         currentUserEmail = getIntent().getStringExtra("user_email");
+        idUsuario = getIntent().getIntExtra("id_usuario", -1);
+
 
         // Inicializa banco
         dbHelper = new DatabaseHelper(this);
         db = dbHelper.getWritableDatabase();
         dbHelper.insertInitialMovies(db);
 
-        // RecyclerView
         rvMovies = findViewById(R.id.rvMovies);
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
 
-        // Carrega filmes do banco e seta adapter
         filmes = loadFilmesFromDB();
-        FilmesAdapterMain adapter = new FilmesAdapterMain(this, filmes);
+        FilmesAdapterMain adapter = new FilmesAdapterMain(this, filmes, idUsuario);
         rvMovies.setAdapter(adapter);
+
+
+
 
         // BottomNavigationView
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
@@ -62,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+
 
         // Ajusta padding edge-to-edge
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

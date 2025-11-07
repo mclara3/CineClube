@@ -101,9 +101,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cancelar"
+                android:textColor="#6200EE"
+                android:backgroundTint="#EDE7F6"
                 android:textAllCaps="false"
-                android:backgroundTint="#E0E0E0"
-                android:textColor="#000000" />
+                 />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -42,9 +42,12 @@ public class LoginActivity extends AppCompatActivity {
                     tvInfo.setText("Login realizado com sucesso!");
                     tvInfo.setVisibility(TextView.VISIBLE);
 
+                    int idUsuario = usuarioDAO.getIdUsuarioPorEmail(email);
+
                     // Envia email do usuário para o MainActivity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("user_email", email);
+                    intent.putExtra("id_usuario", idUsuario);
                     startActivity(intent);
                     finish();
                 } else {

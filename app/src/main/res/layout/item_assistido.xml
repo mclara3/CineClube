@@ -14,6 +14,7 @@
         android:orientation="vertical"
         android:padding="12dp">
 
+        <!-- Título do filme -->
         <TextView
             android:id="@+id/tvWatchedTitle"
             android:layout_width="match_parent"
@@ -22,19 +23,68 @@
             android:textStyle="bold"
             android:textSize="16sp" />
 
+        <!-- Data da avaliação -->
         <TextView
             android:id="@+id/tvWatchedDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Data assistido: 01/01/2025"
-            android:textSize="12sp" />
+            android:text="Data da avaliação: 01/01/2025"
+            android:textSize="12sp"
+            android:layout_marginTop="2dp" />
 
+        <!-- Nota da avaliação -->
         <TextView
             android:id="@+id/tvWatchedRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4.5 ★"
+            android:textSize="14sp"
+            android:textColor="#AFA015"
+            android:layout_marginTop="2dp" />
+
+
+        <!-- Comentário -->
+        <TextView
+            android:id="@+id/tvWatchedComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Avaliação: 8 — Comentário: Muito bom!"
-            android:textSize="13sp"
-            android:layout_marginTop="4dp"/>
+            android:text="Comentário do usuário"
+            android:textSize="14sp"
+            android:layout_marginTop="2dp"
+            android:textColor="#555555" />
+
+
+        <!-- Botões de ação -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="4dp">
+
+            <Button
+                android:id="@+id/btnEditReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editar"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp" />
+
+            <Button
+                android:id="@+id/btnDeleteReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Excluir"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#FF6363"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -1,12 +1,12 @@
 package com.example.cineclube;
 
 public class Filme {
-    private int id;
-    private String titulo;
-    private String descricao;
-    private String genero;
-    private int ano;
-    private double notaMedia;
+    private final int id;
+    private final String titulo;
+    private final String descricao;
+    private final String genero;
+    private final int ano;
+    private final double notaMedia;
 
     public Filme(int id, String titulo, String descricao, String genero, int ano, double notaMedia) {
         this.id = id;

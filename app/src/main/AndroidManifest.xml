@@ -32,6 +32,8 @@
 
         <activity android:name=".EditarContaActivity" />
 
+        <activity android:name=".AvaliarFilme" />
+
 
     </application>
 

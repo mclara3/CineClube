@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MinhaContaActivity extends AppCompatActivity {
 
@@ -27,6 +30,7 @@ public class MinhaContaActivity extends AppCompatActivity {
     private String currentUserEmail;
 
     private ActivityResultLauncher<Intent> editProfileLauncher;
+    private ActivityResultLauncher<Intent> editRatingLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class MinhaContaActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         db = dbHelper.getReadableDatabase();
 
-        // ActivityResultLauncher para atualizar dados após edição
+        // Launcher para editar perfil
         editProfileLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -52,6 +56,16 @@ public class MinhaContaActivity extends AppCompatActivity {
                         currentUserEmail = updatedEmail;
                         loadUserInfo();
                         loadWatchedMovies();
+                    }
+                }
+        );
+
+        // Launcher para editar avaliação
+        editRatingLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        loadWatchedMovies(); // recarrega lista após edição de avaliação
                     }
                 }
         );
@@ -65,12 +79,9 @@ public class MinhaContaActivity extends AppCompatActivity {
         loadUserInfo();
         loadWatchedMovies();
 
-        // Configura bottom nav nesta activity
+        // Configura bottom nav
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-
-        // Marca item Minha Conta como selecionado
         bottomNav.setSelectedItemId(R.id.nav_conta);
-
         bottomNav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
                 Intent intent = new Intent(MinhaContaActivity.this, MainActivity.class);
@@ -78,11 +89,7 @@ public class MinhaContaActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 return true;
-            } else if (item.getItemId() == R.id.nav_conta) {
-                // Já estamos aqui
-                return true;
-            }
-            return false;
+            } else return item.getItemId() == R.id.nav_conta;
         });
     }
 
@@ -98,19 +105,46 @@ public class MinhaContaActivity extends AppCompatActivity {
     }
 
     private void loadWatchedMovies() {
-        ArrayList<String> filmes = new ArrayList<>();
+        ArrayList<FilmeAvaliado> filmes = new ArrayList<>();
+
         Cursor cursor = db.rawQuery(
-                "SELECT f.titulo FROM filmes f " +
-                        "INNER JOIN filmes_assistidos fa ON f.id_filme = fa.id_filme " +
-                        "INNER JOIN usuarios u ON fa.id_usuario = u.id_usuario " +
-                        "WHERE u.email = ?", new String[]{currentUserEmail});
+                "SELECT f.id_filme, u.id_usuario, f.titulo, a.data_avaliacao, a.nota, c.comentario " +
+                        "FROM avaliacoes a " +
+                        "LEFT JOIN comentarios c ON a.id_usuario = c.id_usuario AND a.id_filme = c.id_filme " +
+                        "INNER JOIN filmes f ON a.id_filme = f.id_filme " +
+                        "INNER JOIN usuarios u ON a.id_usuario = u.id_usuario " +
+                        "WHERE u.email = ? " +
+                        "ORDER BY a.data_avaliacao DESC",
+                new String[]{currentUserEmail});
+
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yy");
 
         while (cursor.moveToNext()) {
-            filmes.add(cursor.getString(0));
+            int idFilme = cursor.getInt(0);
+            int idUsuario = cursor.getInt(1);
+            String titulo = cursor.getString(2);
+            String dataRaw = cursor.getString(3);
+            float nota = cursor.getFloat(4);
+            String comentario = cursor.getString(5);
+            if (comentario == null || comentario.isEmpty()) {
+                comentario = "Nenhum comentário";
+            }
+
+            String dataFormatada = dataRaw;
+            try {
+                Date date = inputFormat.parse(dataRaw);
+                dataFormatada = outputFormat.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            filmes.add(new FilmeAvaliado(idFilme, idUsuario, titulo, dataFormatada, nota, comentario));
         }
+
         cursor.close();
 
         rvWatched.setLayoutManager(new LinearLayoutManager(this));
-        rvWatched.setAdapter(new FilmesAdapter(filmes));
+        rvWatched.setAdapter(new FilmesAvaliadosAdapter(filmes, db, currentUserEmail, editRatingLauncher));
     }
 }
