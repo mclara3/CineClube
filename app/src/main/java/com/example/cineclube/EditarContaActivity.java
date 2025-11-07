@@ -91,17 +91,29 @@ public class EditarContaActivity extends BaseActivity {
     }
 
     private void deleteUser() {
+        db.execSQL("PRAGMA foreign_keys=ON;");
+
+        db.delete("comentarios", "id_usuario = (SELECT id_usuario FROM usuarios WHERE email=?)",
+                new String[]{currentUserEmail});
+        db.delete("avaliacoes", "id_usuario = (SELECT id_usuario FROM usuarios WHERE email=?)",
+                new String[]{currentUserEmail});
+
         int rows = db.delete("usuarios", "email=?", new String[]{currentUserEmail});
+
         if (rows > 0) {
+            SessionManager session = new SessionManager(this);
+            session.clearSession();
+
             Toast.makeText(this, "Conta excluída com sucesso!", Toast.LENGTH_SHORT).show();
 
-            // Redireciona para a tela de login e fecha todas as activities anteriores
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
         } else {
             Toast.makeText(this, "Erro ao excluir conta.", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 }

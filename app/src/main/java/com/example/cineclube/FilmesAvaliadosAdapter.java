@@ -68,14 +68,26 @@ public class FilmesAvaliadosAdapter extends RecyclerView.Adapter<FilmesAvaliados
         });
 
         holder.btnDelete.setOnClickListener(v -> {
+            Context context = v.getContext();
+
+            // Apaga a avaliação
             db.delete("avaliacoes",
                     "id_filme = (SELECT id_filme FROM filmes WHERE titulo=?) AND id_usuario = (SELECT id_usuario FROM usuarios WHERE email=?)",
                     new String[]{filme.getTitulo(), userEmail});
-            Toast.makeText(v.getContext(), "Avaliação excluída!", Toast.LENGTH_SHORT).show();
+
+            // Apaga o comentário relacionado
+            db.delete("comentarios",
+                    "id_filme = (SELECT id_filme FROM filmes WHERE titulo=?) AND id_usuario = (SELECT id_usuario FROM usuarios WHERE email=?)",
+                    new String[]{filme.getTitulo(), userEmail});
+
+            Toast.makeText(context, "Avaliação e comentário excluídos!", Toast.LENGTH_SHORT).show();
+
+            // Remove o item da lista e atualiza a RecyclerView
             filmes.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, filmes.size());
         });
+
     }
 
     @Override

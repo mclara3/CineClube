@@ -49,6 +49,15 @@ public class DetalhesFilmeActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (idFilme != -1) {
+            carregarDetalhesFilme();
+            carregarComentarios();
+        }
+    }
+
     private void carregarDetalhesFilme() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(
