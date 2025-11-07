@@ -13,7 +13,7 @@
         android:id="@+id/tvProfileTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Avaliar Filme"
+        android:text="Detalhes"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#000000"
@@ -52,8 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
-            app:cardElevation="6dp"
-            android:padding="20dp">
+            app:cardElevation="2dp"
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,12 +63,14 @@
 
                 <!-- Pôster -->
                 <ImageView
+                    android:layout_marginTop="13dp"
                     android:id="@+id/imgPoster"
                     android:layout_width="220dp"
                     android:layout_height="320dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/exemplo_poster"
                     android:layout_marginBottom="16dp"
+
                     android:contentDescription="Pôster do filme" />
 
                 <!-- Título -->
@@ -81,6 +83,7 @@
                     android:textStyle="bold"
                     android:textColor="#222222"
                     android:layout_marginBottom="8dp" />
+
 
                 <!-- Avaliação -->
                 <LinearLayout
@@ -121,6 +124,9 @@
                     android:textSize="15sp"
                     android:textColor="#444444"
                     android:lineSpacingExtra="4dp"
+                    android:gravity="center"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="12dp"
                     android:layout_marginBottom="20dp" />
 
                 <!-- Título Comentários -->

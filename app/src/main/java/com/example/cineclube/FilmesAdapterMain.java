@@ -64,6 +64,13 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
                 break;
         }
 
+        // 👉 Clique no card para abrir detalhes
+        holder.cardMovie.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetalhesFilmeActivity.class);
+            intent.putExtra("id_filme", filme.getId());
+            context.startActivity(intent);
+        });
+
         // ✅ Clique do botão "Avaliar"
         holder.btnRate.setOnClickListener(v -> {
             Intent intent = new Intent(context, AvaliarFilme.class);
@@ -83,6 +90,7 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
         ImageView ivPoster;
         TextView tvTitle, tvYearGenre, tvDescription, tvRating;
         Button btnRate;
+        androidx.cardview.widget.CardView cardMovie;
 
         public FilmeViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -92,6 +100,7 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
             tvDescription = itemView.findViewById(R.id.tvMovieDescription);
             tvRating = itemView.findViewById(R.id.tvMovieRating);
             btnRate = itemView.findViewById(R.id.btnRate);
+            cardMovie = itemView.findViewById(R.id.card_movie);
         }
     }
 }
