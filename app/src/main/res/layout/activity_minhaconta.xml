@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
-    <!-- Top app bar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
@@ -18,7 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Título -->
     <TextView
         android:id="@+id/tvProfileTitle"
         android:layout_width="wrap_content"
@@ -32,7 +30,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <!-- Informações do usuário com botão Editar na mesma linha -->
     <LinearLayout
         android:id="@+id/llUserInfo"
         android:layout_width="match_parent"
@@ -47,7 +44,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Bloco de informações -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -72,7 +68,6 @@
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
-        <!-- Botões Editar e Sair lado a lado, seguindo as cores existentes -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,7 +101,6 @@
 
     </LinearLayout>
 
-    <!-- Separador -->
     <View
         android:id="@+id/div"
         android:layout_width="match_parent"
@@ -117,7 +111,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Título do histórico -->
     <TextView
         android:id="@+id/tvHistoryTitle"
         android:layout_width="wrap_content"
@@ -131,7 +124,6 @@
         app:layout_constraintTop_toBottomOf="@id/div"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Lista -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWatched"
         android:layout_width="0dp"
@@ -145,7 +137,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_assistido" />
 
-    <!-- Bottom navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="0dp"

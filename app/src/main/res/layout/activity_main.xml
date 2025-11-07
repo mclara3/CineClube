@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Top App Bar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
@@ -30,9 +29,6 @@
             android:background="@android:color/transparent" />
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- Lista de filmes -->
-
-    <!-- Navegação inferior -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMovies"
         android:layout_width="0dp"

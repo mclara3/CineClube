@@ -53,7 +53,6 @@ public class FilmesAvaliadosAdapter extends RecyclerView.Adapter<FilmesAvaliados
         holder.tvRating.setText(filme.getNota() + " ★");
         holder.tvComment.setText(filme.getComentario());
 
-        // Clique no botão Editar → abre AvaliarFilme com dados existentes
         holder.btnEdit.setOnClickListener(v -> {
             Context context = v.getContext();
             Intent intent = new Intent(context, AvaliarFilme.class);
@@ -68,7 +67,6 @@ public class FilmesAvaliadosAdapter extends RecyclerView.Adapter<FilmesAvaliados
             editRatingLauncher.launch(intent);
         });
 
-        // Clique no botão Excluir
         holder.btnDelete.setOnClickListener(v -> {
             db.delete("avaliacoes",
                     "id_filme = (SELECT id_filme FROM filmes WHERE titulo=?) AND id_usuario = (SELECT id_usuario FROM usuarios WHERE email=?)",

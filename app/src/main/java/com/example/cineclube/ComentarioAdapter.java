@@ -31,7 +31,6 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Vi
         holder.tvUserName.setText(comentario.getNomeUsuario());
         holder.tvComment.setText(comentario.getComentario());
 
-        // Exibe nota formatada, ex: "4.5 ★"
         holder.tvRating.setText(String.format("%.1f ★", comentario.getNota()));
     }
 

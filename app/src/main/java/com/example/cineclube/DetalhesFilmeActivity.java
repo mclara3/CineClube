@@ -41,7 +41,6 @@ public class DetalhesFilmeActivity extends BaseActivity {
 
         dbHelper = new DatabaseHelper(this);
 
-        // Nenhum item selecionado no detalhe
         setupBottomNav(-1, currentUserEmail);
 
         if (idFilme != -1) {

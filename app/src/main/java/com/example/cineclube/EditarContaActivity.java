@@ -34,7 +34,6 @@ public class EditarContaActivity extends BaseActivity {
         dbHelper = new DatabaseHelper(this);
         db = dbHelper.getWritableDatabase();
 
-        // Ativa foreign keys para que ON DELETE CASCADE funcione
         db.execSQL("PRAGMA foreign_keys=ON;");
 
         currentUserEmail = getIntent().getStringExtra("user_email");
@@ -46,7 +45,6 @@ public class EditarContaActivity extends BaseActivity {
         btnSalvar.setOnClickListener(v -> updateUserData());
         btnCancelar.setOnClickListener(v -> finish());
 
-        // Configura o botão de excluir
         btnExcluirConta.setOnClickListener(v -> confirmDeleteUser());
     }
 

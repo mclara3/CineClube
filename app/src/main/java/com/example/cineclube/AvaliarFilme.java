@@ -32,7 +32,6 @@ public class AvaliarFilme extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.avaliar_filme);
 
-        // Inicializa DAO e views
         avaliacaoDAO = new AvaliacaoDAO(this);
 
         tvRateMovieTitle = findViewById(R.id.tvRateMovieTitle);
@@ -43,17 +42,14 @@ public class AvaliarFilme extends BaseActivity {
         bottomNav = findViewById(R.id.bottomNav);
         etComment = findViewById(R.id.etComment);
 
-        // Recebe dados do Intent
         Intent intent = getIntent();
         idFilme = intent.getIntExtra("id_filme", -1);
         tituloFilme = intent.getStringExtra("filme_titulo");
         idUsuario = intent.getIntExtra("id_usuario", -1);
         currentUserEmail = intent.getStringExtra("user_email"); // <- recebendo e-mail do usuário
 
-        // Inicializa BottomNavigationView
         setupBottomNav(-1, currentUserEmail);
 
-        // Nota e comentário existentes (para edição)
         float notaExistente = intent.getFloatExtra("nota", 0f);
         String comentarioExistente = intent.getStringExtra("comentario");
 
@@ -63,7 +59,6 @@ public class AvaliarFilme extends BaseActivity {
         ratingBarMovie.setRating(notaExistente);
         etComment.setText(comentarioExistente != null ? comentarioExistente : "");
 
-        // Botão Enviar avaliação
         btnSubmitMovieRating.setOnClickListener(v -> {
             float nota = ratingBarMovie.getRating();
             String comentario = etComment.getText().toString().trim();
@@ -91,10 +86,8 @@ public class AvaliarFilme extends BaseActivity {
             }
         });
 
-        // Botão Cancelar → volta para MainActivity
         btnCancelRating.setOnClickListener(v -> finish());
 
-        // Botão de navegação da AppBar
         topAppBar.setNavigationOnClickListener(v -> finish());
     }
 }

@@ -18,7 +18,7 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
 
     private final Context context;
     private final List<Filme> filmes;
-    private final int idUsuario; // ✅ Adicionado para saber qual usuário está logado
+    private final int idUsuario;
 
     private final String currentUserEmail;
 
@@ -45,7 +45,6 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
         holder.tvDescription.setText(filme.getDescricao());
         holder.tvRating.setText(String.format("%.1f ★", filme.getNotaMedia()));
 
-        // Define o pôster conforme o nome do filme
         switch (filme.getTitulo()) {
             case "A Origem":
                 holder.ivPoster.setImageResource(R.drawable.origin);
@@ -67,7 +66,6 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
                 break;
         }
 
-        // 👉 Clique no card para abrir detalhes
         holder.cardMovie.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetalhesFilmeActivity.class);
             intent.putExtra("id_filme", filme.getId());
@@ -75,7 +73,6 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
             context.startActivity(intent);
         });
 
-        // ✅ Clique do botão "Avaliar"
         holder.btnRate.setOnClickListener(v -> {
             Intent intent = new Intent(context, AvaliarFilme.class);
             intent.putExtra("id_filme", filme.getId());

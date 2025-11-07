@@ -44,7 +44,6 @@ public class CriarContaActivity extends AppCompatActivity {
                     tvInfo.setText("Conta criada com sucesso!");
                     tvInfo.setVisibility(TextView.VISIBLE);
 
-                    // Volta para o login
                     startActivity(new Intent(this, LoginActivity.class));
                     finish();
                 } else {

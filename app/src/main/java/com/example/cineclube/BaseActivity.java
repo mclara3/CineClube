@@ -10,7 +10,6 @@ public class BaseActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         if (bottomNav == null) return;
 
-        // Seleciona o item atual (-1 = nenhum)
         if (selectedItemId != -1) {
             bottomNav.setSelectedItemId(selectedItemId);
         }
@@ -18,7 +17,6 @@ public class BaseActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
 
-            // Evita abrir a mesma activity
             if (id == R.id.nav_home && !(this instanceof MainActivity)) {
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("user_email", currentUserEmail);

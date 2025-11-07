@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".CriarContaActivity">
 
-    <!-- Top App Bar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
@@ -18,7 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Título do aplicativo -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -32,7 +30,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <!-- Subtítulo -->
     <TextView
         android:id="@+id/tvSubtitle"
         android:layout_width="wrap_content"
@@ -45,7 +42,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="4dp" />
 
-    <!-- Card de formulário (mantido na parte superior) -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardForm"
         android:layout_width="0dp"
@@ -65,7 +61,6 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Nome -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilName"
                 android:layout_width="match_parent"
@@ -79,7 +74,6 @@
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- E-mail -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilEmail"
                 android:layout_width="match_parent"
@@ -94,7 +88,6 @@
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Senha -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPassword"
                 android:layout_width="match_parent"
@@ -109,7 +102,6 @@
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Botões -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,7 +128,6 @@
                     android:textAllCaps="false" />
             </LinearLayout>
 
-            <!-- Mensagem de informação/erro -->
             <TextView
                 android:id="@+id/tvInfo"
                 android:layout_width="match_parent"

@@ -32,7 +32,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <!-- Card principal -->
     <androidx.cardview.widget.CardView
         android:id="@+id/card_rate_movie"
         android:layout_width="0dp"
@@ -54,7 +53,6 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Título -->
             <TextView
                 android:id="@+id/tvRateMovieTitle"
                 android:layout_width="match_parent"
@@ -64,7 +62,6 @@
                 android:textSize="18sp"
                 android:layout_marginBottom="8dp"/>
 
-            <!-- Gênero -->
             <TextView
                 android:id="@+id/tvRateMovieGenre"
                 android:layout_width="match_parent"
@@ -74,7 +71,6 @@
                 android:textColor="#555555"
                 android:layout_marginBottom="4dp"/>
 
-            <!-- Ano -->
             <TextView
                 android:id="@+id/tvRateMovieYear"
                 android:layout_width="match_parent"
@@ -84,7 +80,6 @@
                 android:textColor="#555555"
                 android:layout_marginBottom="20dp"/>
 
-            <!-- RatingBar -->
             <RatingBar
                 android:id="@+id/ratingBarMovie"
                 android:layout_width="wrap_content"
@@ -95,8 +90,6 @@
                 android:layout_gravity="start"
                 android:layout_marginBottom="20dp" />
 
-
-            <!-- Comentário -->
             <EditText
                 android:id="@+id/etComment"
                 android:layout_width="match_parent"
@@ -108,7 +101,6 @@
                 android:padding="16dp"
                 android:layout_marginBottom="20dp"/>
 
-            <!-- Botões lado a lado -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,7 +130,6 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Bottom navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="0dp"

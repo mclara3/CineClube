@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:padding="8dp">
 
-        <!-- Poster -->
         <ImageView
             android:id="@+id/ivPoster"
             android:layout_width="100dp"
@@ -26,7 +25,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <!-- Título -->
         <TextView
             android:id="@+id/tvMovieTitle"
             android:layout_width="0dp"
@@ -41,7 +39,6 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp" />
 
-        <!-- Ano e Gênero -->
         <TextView
             android:id="@+id/tvMovieYearGenre"
             android:layout_width="0dp"
@@ -54,7 +51,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="4dp" />
 
-        <!-- Descrição -->
         <TextView
             android:id="@+id/tvMovieDescription"
             android:layout_width="0dp"
@@ -69,7 +65,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="4dp" />
 
-        <!-- Nota -->
         <TextView
             android:id="@+id/tvMovieRating"
             android:layout_width="wrap_content"
@@ -80,7 +75,6 @@
             app:layout_constraintTop_toTopOf="@id/tvMovieTitle"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Botões -->
         <LinearLayout
             android:id="@+id/btnBar"
             android:layout_width="wrap_content"

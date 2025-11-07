@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".EditarContaActivity">
 
-    <!-- Top App Bar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
@@ -18,7 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Título centralizado -->
     <TextView
         android:id="@+id/tvEditTitle"
         android:layout_width="wrap_content"
@@ -32,7 +30,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <!-- Card com formulário -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardEditForm"
         android:layout_width="0dp"
@@ -54,7 +51,6 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Campo nome -->
             <EditText
                 android:id="@+id/etNomeUsuario"
                 android:layout_width="match_parent"
@@ -65,7 +61,6 @@
                 android:padding="16dp"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Campo e-mail -->
             <EditText
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
@@ -76,7 +71,6 @@
                 android:padding="16dp"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Campo senha -->
             <EditText
                 android:id="@+id/etSenha"
                 android:layout_width="match_parent"
@@ -87,7 +81,6 @@
                 android:padding="16dp"
                 android:layout_marginBottom="24dp" />
 
-            <!-- Botões -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSalvar"
                 android:layout_width="match_parent"
@@ -126,7 +119,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardEditForm" />
 
-    <!-- Bottom Navigation (igual ao Avaliar Filme) -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="0dp"

@@ -9,7 +9,6 @@
     android:background="@android:color/white"
     android:padding="12dp">
 
-    <!-- Linha: nome do usuário à esquerda e nota à direita -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -37,7 +36,6 @@
 
     </RelativeLayout>
 
-    <!-- Comentário -->
     <TextView
         android:id="@+id/tvComment"
         android:layout_width="match_parent"
@@ -49,7 +47,6 @@
         android:textSize="15sp"
         android:textColor="#444444" />
 
-    <!-- Linha divisória -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

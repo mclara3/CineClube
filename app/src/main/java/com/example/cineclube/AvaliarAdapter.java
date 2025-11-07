@@ -21,7 +21,6 @@ public class AvaliarAdapter extends RecyclerView.Adapter<AvaliarAdapter.FilmeVie
     private int idUsuario;
     private String userEmail;
 
-    // construtor atualizado para receber o ID do usuário
     public AvaliarAdapter(Context context, List<Filme> listaFilmes, int idUsuario, String userEmail) {
         this.context = context;
         this.listaFilmes = listaFilmes;

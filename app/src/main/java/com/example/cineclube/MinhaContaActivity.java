@@ -30,7 +30,6 @@ public class MinhaContaActivity extends BaseActivity {
     private final ActivityResultLauncher<Intent> editRatingLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    // Quando o usuário voltar da tela de edição, recarrega os filmes
                     loadWatchedMovies();
                 }
             });
@@ -47,10 +46,8 @@ public class MinhaContaActivity extends BaseActivity {
         btnLogout = findViewById(R.id.btnLogout);
         rvWatched = findViewById(R.id.rvWatched);
 
-        // Inicializa a sessão
         session = new SessionManager(this);
 
-        // Recupera email da sessão
         currentUserEmail = session.getUserEmail();
         if (currentUserEmail == null) {
             startActivity(new Intent(this, LoginActivity.class));
@@ -58,7 +55,6 @@ public class MinhaContaActivity extends BaseActivity {
             return;
         }
 
-        // Se vier de outra tela com intent, atualiza o email
         String emailIntent = getIntent().getStringExtra("user_email");
         if (emailIntent != null) {
             currentUserEmail = emailIntent;
@@ -67,14 +63,12 @@ public class MinhaContaActivity extends BaseActivity {
         dbHelper = new DatabaseHelper(this);
         db = dbHelper.getReadableDatabase();
 
-        // Botão Editar Perfil
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(MinhaContaActivity.this, EditarContaActivity.class);
             intent.putExtra("user_email", currentUserEmail);
             startActivity(intent);
         });
 
-        // Botão Sair (encerra sessão)
         btnLogout.setOnClickListener(v -> {
             session.clearSession(); // limpa sessão
 

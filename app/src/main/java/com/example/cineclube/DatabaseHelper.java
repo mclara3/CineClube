@@ -16,14 +16,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        // Tabela de usuários
         db.execSQL("CREATE TABLE usuarios (" +
                 "id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "nome TEXT NOT NULL, " +
                 "email TEXT NOT NULL UNIQUE, " +
                 "senha TEXT NOT NULL)");
 
-        // Tabela de filmes com título, descrição, gênero e ano
         db.execSQL("CREATE TABLE filmes (" +
                 "id_filme INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "titulo TEXT NOT NULL UNIQUE, " +   // UNIQUE para evitar duplicados
@@ -33,7 +31,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "nota_media REAL DEFAULT 0)");
 
 
-        // Tabela de avaliações
         db.execSQL("CREATE TABLE avaliacoes (" +
                 "id_avaliacao INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "id_usuario INTEGER NOT NULL, " +
@@ -44,7 +41,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE, " +
                 "FOREIGN KEY (id_filme) REFERENCES filmes(id_filme) ON DELETE CASCADE)");
 
-        // Tabela de comentários
         db.execSQL("CREATE TABLE comentarios (" +
                 "id_comentario INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "id_usuario INTEGER NOT NULL, " +
@@ -54,7 +50,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE, " +
                 "FOREIGN KEY (id_filme) REFERENCES filmes(id_filme) ON DELETE CASCADE)");
 
-        // Tabela de filmes assistidos
         db.execSQL("CREATE TABLE filmes_assistidos (" +
                 "id_usuario INTEGER NOT NULL, " +
                 "id_filme INTEGER NOT NULL, " +
@@ -63,7 +58,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE, " +
                 "FOREIGN KEY (id_filme) REFERENCES filmes(id_filme) ON DELETE CASCADE)");
 
-        // Inserir 5 filmes iniciais
         insertInitialMovies(db);
     }
 

@@ -30,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
         Button btnLogin = findViewById(R.id.btnLogin);
         Button btnIrCadastro = findViewById(R.id.btnGoToRegister);
 
-        // Se já estiver logado, vai direto para MainActivity
         if (session.isLoggedIn()) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra("user_email", session.getUserEmail());

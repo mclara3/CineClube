@@ -12,7 +12,6 @@ public class UsuarioDAO {
         dbHelper = new DatabaseHelper(context);
     }
 
-    // Inserir novo usuário
     public boolean inserirUsuario(String nome, String email, String senha) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues valores = new ContentValues();
@@ -25,7 +24,6 @@ public class UsuarioDAO {
         return resultado != -1;
     }
 
-    // Verificar login
     public boolean verificarLogin(String email, String senha) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String sql = "SELECT * FROM usuarios WHERE email = ? AND senha = ?";

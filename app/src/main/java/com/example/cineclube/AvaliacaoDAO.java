@@ -13,11 +13,9 @@ public class AvaliacaoDAO {
         dbHelper = new DatabaseHelper(context);
     }
 
-    // Adiciona ou atualiza a avaliação e comentário do usuário para um filme
     public boolean adicionarOuAtualizarAvaliacao(int idUsuario, int idFilme, float nota, String comentario) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        // 1️⃣ Atualiza ou insere a nota
         ContentValues valuesNota = new ContentValues();
         valuesNota.put("id_usuario", idUsuario);
         valuesNota.put("id_filme", idFilme);
@@ -30,7 +28,6 @@ public class AvaliacaoDAO {
                 SQLiteDatabase.CONFLICT_REPLACE
         );
 
-        // 2️⃣ Atualiza ou insere o comentário
         ContentValues valuesComentario = new ContentValues();
         valuesComentario.put("comentario", comentario);
 
@@ -42,7 +39,6 @@ public class AvaliacaoDAO {
                 new String[]{String.valueOf(idUsuario), String.valueOf(idFilme)}
         );
 
-        // Se não atualizou nenhuma linha, insere
         if (linhasAtualizadas == 0) {
             valuesComentario.put("id_usuario", idUsuario);
             valuesComentario.put("id_filme", idFilme);
@@ -53,7 +49,6 @@ public class AvaliacaoDAO {
         return resultadoNota != -1;
     }
 
-    // Retorna a nota média do filme (para atualizar a tabela filmes)
     public double calcularMediaFilme(int idFilme) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         double media = 0.0;
@@ -69,7 +64,6 @@ public class AvaliacaoDAO {
 
         cursor.close();
 
-        // Atualiza a tabela de filmes com a nova média
         ContentValues values = new ContentValues();
         values.put("nota_media", media);
         db.update("filmes", values, "id_filme = ?", new String[]{String.valueOf(idFilme)});
@@ -78,7 +72,6 @@ public class AvaliacaoDAO {
         return media;
     }
 
-    // Retorna a nota que o usuário deu a um filme específico (se existir)
     public Float buscarNotaUsuario(int idUsuario, int idFilme) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Float nota = null;
@@ -97,7 +90,6 @@ public class AvaliacaoDAO {
         return nota;
     }
 
-    // Retorna o comentário que o usuário deu a um filme (ou null se não houver)
     public String buscarComentarioUsuario(int idUsuario, int idFilme) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String comentario = null;

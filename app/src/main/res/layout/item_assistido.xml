@@ -14,7 +14,6 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <!-- Título do filme -->
         <TextView
             android:id="@+id/tvWatchedTitle"
             android:layout_width="match_parent"
@@ -23,7 +22,7 @@
             android:textStyle="bold"
             android:textSize="16sp" />
 
-        <!-- Data da avaliação -->
+
         <TextView
             android:id="@+id/tvWatchedDate"
             android:layout_width="match_parent"
@@ -32,7 +31,6 @@
             android:textSize="12sp"
             android:layout_marginTop="2dp" />
 
-        <!-- Nota da avaliação -->
         <TextView
             android:id="@+id/tvWatchedRating"
             android:layout_width="wrap_content"
@@ -43,7 +41,6 @@
             android:layout_marginTop="2dp" />
 
 
-        <!-- Comentário -->
         <TextView
             android:id="@+id/tvWatchedComment"
             android:layout_width="match_parent"
@@ -53,8 +50,6 @@
             android:layout_marginTop="2dp"
             android:textColor="#555555" />
 
-
-        <!-- Botões de ação -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
