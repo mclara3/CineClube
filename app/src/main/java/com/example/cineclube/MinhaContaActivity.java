@@ -12,6 +12,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+
 
 public class MinhaContaActivity extends BaseActivity {
 
@@ -22,6 +25,16 @@ public class MinhaContaActivity extends BaseActivity {
     private SQLiteDatabase db;
     private String currentUserEmail;
     private SessionManager session;
+
+
+    private final ActivityResultLauncher<Intent> editRatingLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    // Quando o usuário voltar da tela de edição, recarrega os filmes
+                    loadWatchedMovies();
+                }
+            });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +139,7 @@ public class MinhaContaActivity extends BaseActivity {
         cursor.close();
 
         rvWatched.setLayoutManager(new LinearLayoutManager(this));
-        rvWatched.setAdapter(new FilmesAvaliadosAdapter(filmes, db, currentUserEmail, null));
+        rvWatched.setAdapter(new FilmesAvaliadosAdapter(filmes, db, currentUserEmail, editRatingLauncher));
+
     }
 }
