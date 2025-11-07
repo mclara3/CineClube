@@ -7,15 +7,12 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetalhesFilmeActivity extends AppCompatActivity {
+public class DetalhesFilmeActivity extends BaseActivity {
 
     private ImageView imgPoster;
     private TextView txtTituloFilme, txtDescricaoFilme, txtNota;
@@ -24,13 +21,17 @@ public class DetalhesFilmeActivity extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
     private int idFilme;
+    private String currentUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhefilmes);
 
-        // Inicializar views
+        Intent intent = getIntent();
+        idFilme = intent.getIntExtra("id_filme", -1);
+        currentUserEmail = intent.getStringExtra("user_email");
+
         imgPoster = findViewById(R.id.imgPoster);
         txtTituloFilme = findViewById(R.id.txtTituloFilme);
         txtDescricaoFilme = findViewById(R.id.txtDescricaoFilme);
@@ -40,9 +41,8 @@ public class DetalhesFilmeActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
 
-        // Receber ID do filme via Intent
-        Intent intent = getIntent();
-        idFilme = intent.getIntExtra("id_filme", -1);
+        // Nenhum item selecionado no detalhe
+        setupBottomNav(-1, currentUserEmail);
 
         if (idFilme != -1) {
             carregarDetalhesFilme();
@@ -52,13 +52,10 @@ public class DetalhesFilmeActivity extends AppCompatActivity {
 
     private void carregarDetalhesFilme() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         Cursor cursor = db.rawQuery(
-                "SELECT f.titulo, f.descricao, COALESCE(AVG(a.nota), 0) AS nota_media " +
-                        "FROM filmes f " +
-                        "LEFT JOIN avaliacoes a ON f.id_filme = a.id_filme " +
-                        "WHERE f.id_filme = ? " +
-                        "GROUP BY f.titulo, f.descricao",
+                "SELECT f.titulo, f.descricao, COALESCE(AVG(a.nota),0) AS nota_media " +
+                        "FROM filmes f LEFT JOIN avaliacoes a ON f.id_filme=a.id_filme " +
+                        "WHERE f.id_filme=? GROUP BY f.titulo, f.descricao",
                 new String[]{String.valueOf(idFilme)}
         );
 
@@ -72,26 +69,13 @@ public class DetalhesFilmeActivity extends AppCompatActivity {
             txtNota.setText(String.format("%.1f/5", notaMedia));
             ratingFilme.setRating(notaMedia);
 
-            // Ajuste do pôster de acordo com o título
             switch (titulo) {
-                case "A Origem":
-                    imgPoster.setImageResource(R.drawable.origin);
-                    break;
-                case "Clube da Luta":
-                    imgPoster.setImageResource(R.drawable.club);
-                    break;
-                case "Forrest Gump":
-                    imgPoster.setImageResource(R.drawable.gump);
-                    break;
-                case "Interestelar":
-                    imgPoster.setImageResource(R.drawable.inter);
-                    break;
-                case "O Poderoso Chefão":
-                    imgPoster.setImageResource(R.drawable.podchef);
-                    break;
-                default:
-                    imgPoster.setImageResource(R.drawable.ic_poster_placeholder);
-                    break;
+                case "A Origem": imgPoster.setImageResource(R.drawable.origin); break;
+                case "Clube da Luta": imgPoster.setImageResource(R.drawable.club); break;
+                case "Forrest Gump": imgPoster.setImageResource(R.drawable.gump); break;
+                case "Interestelar": imgPoster.setImageResource(R.drawable.inter); break;
+                case "O Poderoso Chefão": imgPoster.setImageResource(R.drawable.podchef); break;
+                default: imgPoster.setImageResource(R.drawable.ic_poster_placeholder); break;
             }
         }
 
@@ -101,32 +85,25 @@ public class DetalhesFilmeActivity extends AppCompatActivity {
 
     private void carregarComentarios() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-
         Cursor cursor = db.rawQuery(
-                "SELECT u.nome, c.comentario, a.nota\n" +
-                        "FROM comentarios c\n" +
-                        "INNER JOIN usuarios u ON u.id_usuario = c.id_usuario\n" +
-                        "LEFT JOIN avaliacoes a \n" +
-                        "    ON a.id_filme = c.id_filme \n" +
-                        "    AND a.id_usuario = c.id_usuario\n" +
-                        "WHERE c.id_filme = ?\n" +
-                        "ORDER BY c.data_comentario DESC\n",
+                "SELECT u.nome, c.comentario, a.nota " +
+                        "FROM comentarios c INNER JOIN usuarios u ON u.id_usuario=c.id_usuario " +
+                        "LEFT JOIN avaliacoes a ON a.id_filme=c.id_filme AND a.id_usuario=c.id_usuario " +
+                        "WHERE c.id_filme=? ORDER BY c.data_comentario DESC",
                 new String[]{String.valueOf(idFilme)}
         );
 
         List<Comentario> listaComentarios = new ArrayList<>();
-
         while (cursor.moveToNext()) {
-            String nomeUsuario = cursor.getString(0);
+            String nome = cursor.getString(0);
             String comentario = cursor.getString(1);
             float nota = cursor.getFloat(2);
-            listaComentarios.add(new Comentario(nomeUsuario, comentario, nota));
+            listaComentarios.add(new Comentario(nome, comentario, nota));
         }
 
         cursor.close();
         db.close();
 
-        // Configurar RecyclerView
         rvComentarios.setLayoutManager(new LinearLayoutManager(this));
         rvComentarios.setAdapter(new ComentarioAdapter(listaComentarios));
     }

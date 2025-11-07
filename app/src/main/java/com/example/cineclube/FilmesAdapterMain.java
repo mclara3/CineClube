@@ -20,10 +20,13 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
     private final List<Filme> filmes;
     private final int idUsuario; // ✅ Adicionado para saber qual usuário está logado
 
-    public FilmesAdapterMain(Context context, List<Filme> filmes, int idUsuario) {
+    private final String currentUserEmail;
+
+    public FilmesAdapterMain(Context context, List<Filme> filmes, int idUsuario, String currentUserEmail) {
         this.context = context;
         this.filmes = filmes;
         this.idUsuario = idUsuario;
+        this.currentUserEmail = currentUserEmail;
     }
 
     @NonNull
@@ -68,6 +71,7 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
         holder.cardMovie.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetalhesFilmeActivity.class);
             intent.putExtra("id_filme", filme.getId());
+            intent.putExtra("user_email", currentUserEmail);
             context.startActivity(intent);
         });
 
@@ -77,6 +81,7 @@ public class FilmesAdapterMain extends RecyclerView.Adapter<FilmesAdapterMain.Fi
             intent.putExtra("id_filme", filme.getId());
             intent.putExtra("id_usuario", idUsuario);
             intent.putExtra("filme_titulo", filme.getTitulo());
+            intent.putExtra("user_email", currentUserEmail);
             context.startActivity(intent);
         });
     }

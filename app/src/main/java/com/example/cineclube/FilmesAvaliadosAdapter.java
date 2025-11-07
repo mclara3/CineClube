@@ -62,6 +62,8 @@ public class FilmesAvaliadosAdapter extends RecyclerView.Adapter<FilmesAvaliados
             intent.putExtra("id_usuario", filme.getIdUsuario());
             intent.putExtra("nota", filme.getNota());
             intent.putExtra("comentario", filme.getComentario());
+            intent.putExtra("user_email", userEmail);
+
 
             editRatingLauncher.launch(intent);
         });

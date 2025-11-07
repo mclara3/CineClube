@@ -7,27 +7,25 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class AvaliarFilme extends AppCompatActivity {
+public class AvaliarFilme extends BaseActivity {
 
     private TextView tvRateMovieTitle;
     private RatingBar ratingBarMovie;
     private MaterialButton btnSubmitMovieRating, btnCancelRating;
     private MaterialToolbar topAppBar;
     private BottomNavigationView bottomNav;
+    private EditText etComment;
 
     private int idFilme;
     private String tituloFilme;
-
     private int idUsuario;
-    private AvaliacaoDAO avaliacaoDAO;
+    private String currentUserEmail;
 
-    private EditText etComment;
+    private AvaliacaoDAO avaliacaoDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +48,10 @@ public class AvaliarFilme extends AppCompatActivity {
         idFilme = intent.getIntExtra("id_filme", -1);
         tituloFilme = intent.getStringExtra("filme_titulo");
         idUsuario = intent.getIntExtra("id_usuario", -1);
+        currentUserEmail = intent.getStringExtra("user_email"); // <- recebendo e-mail do usuário
+
+        // Inicializa BottomNavigationView
+        setupBottomNav(-1, currentUserEmail);
 
         // Nota e comentário existentes (para edição)
         float notaExistente = intent.getFloatExtra("nota", 0f);
@@ -76,27 +78,21 @@ public class AvaliarFilme extends AppCompatActivity {
             if (sucesso) {
                 Toast.makeText(this, "Avaliação registrada com sucesso!", Toast.LENGTH_SHORT).show();
 
-                // Cria Intent de resultado
                 Intent resultado = new Intent();
                 resultado.putExtra("id_filme", idFilme);
                 resultado.putExtra("id_usuario", idUsuario);
                 resultado.putExtra("nota", nota);
                 resultado.putExtra("comentario", comentario);
 
-                setResult(RESULT_OK, resultado); // envia resultado para quem chamou
-                finish(); // fecha esta Activity
-            }
-            else {
+                setResult(RESULT_OK, resultado);
+                finish();
+            } else {
                 Toast.makeText(this, "Erro ao salvar avaliação.", Toast.LENGTH_SHORT).show();
             }
         });
 
         // Botão Cancelar → volta para MainActivity
-        btnCancelRating.setOnClickListener(v -> {
-            Intent voltarIntent = new Intent(AvaliarFilme.this, MainActivity.class);
-            startActivity(voltarIntent);
-            finish();
-        });
+        btnCancelRating.setOnClickListener(v -> finish());
 
         // Botão de navegação da AppBar
         topAppBar.setNavigationOnClickListener(v -> finish());

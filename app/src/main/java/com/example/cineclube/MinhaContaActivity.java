@@ -6,31 +6,22 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MinhaContaActivity extends AppCompatActivity {
+public class MinhaContaActivity extends BaseActivity {
 
     private TextView tvUserName, tvUserEmail;
-    private Button btnEditProfile;
+    private Button btnEditProfile, btnLogout;
     private RecyclerView rvWatched;
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
     private String currentUserEmail;
-
-    private ActivityResultLauncher<Intent> editProfileLauncher;
-    private ActivityResultLauncher<Intent> editRatingLauncher;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,57 +31,50 @@ public class MinhaContaActivity extends AppCompatActivity {
         tvUserName = findViewById(R.id.tvUserName);
         tvUserEmail = findViewById(R.id.tvUserEmail);
         btnEditProfile = findViewById(R.id.btnEditProfile);
+        btnLogout = findViewById(R.id.btnLogout);
         rvWatched = findViewById(R.id.rvWatched);
 
-        currentUserEmail = getIntent().getStringExtra("user_email");
+        // Inicializa a sessão
+        session = new SessionManager(this);
+
+        // Recupera email da sessão
+        currentUserEmail = session.getUserEmail();
+        if (currentUserEmail == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
+        // Se vier de outra tela com intent, atualiza o email
+        String emailIntent = getIntent().getStringExtra("user_email");
+        if (emailIntent != null) {
+            currentUserEmail = emailIntent;
+        }
 
         dbHelper = new DatabaseHelper(this);
         db = dbHelper.getReadableDatabase();
 
-        // Launcher para editar perfil
-        editProfileLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        String updatedEmail = result.getData().getStringExtra("updated_email");
-                        currentUserEmail = updatedEmail;
-                        loadUserInfo();
-                        loadWatchedMovies();
-                    }
-                }
-        );
-
-        // Launcher para editar avaliação
-        editRatingLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        loadWatchedMovies(); // recarrega lista após edição de avaliação
-                    }
-                }
-        );
-
+        // Botão Editar Perfil
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(MinhaContaActivity.this, EditarContaActivity.class);
             intent.putExtra("user_email", currentUserEmail);
-            editProfileLauncher.launch(intent);
+            startActivity(intent);
+        });
+
+        // Botão Sair (encerra sessão)
+        btnLogout.setOnClickListener(v -> {
+            session.clearSession(); // limpa sessão
+
+            Intent intent = new Intent(MinhaContaActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         });
 
         loadUserInfo();
         loadWatchedMovies();
 
-        // Configura bottom nav
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-        bottomNav.setSelectedItemId(R.id.nav_conta);
-        bottomNav.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_home) {
-                Intent intent = new Intent(MinhaContaActivity.this, MainActivity.class);
-                intent.putExtra("user_email", currentUserEmail);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                return true;
-            } else return item.getItemId() == R.id.nav_conta;
-        });
+        setupBottomNav(R.id.nav_conta, currentUserEmail);
     }
 
     private void loadUserInfo() {
@@ -106,7 +90,6 @@ public class MinhaContaActivity extends AppCompatActivity {
 
     private void loadWatchedMovies() {
         ArrayList<FilmeAvaliado> filmes = new ArrayList<>();
-
         Cursor cursor = db.rawQuery(
                 "SELECT f.id_filme, u.id_usuario, f.titulo, a.data_avaliacao, a.nota, c.comentario " +
                         "FROM avaliacoes a " +
@@ -127,9 +110,7 @@ public class MinhaContaActivity extends AppCompatActivity {
             String dataRaw = cursor.getString(3);
             float nota = cursor.getFloat(4);
             String comentario = cursor.getString(5);
-            if (comentario == null || comentario.isEmpty()) {
-                comentario = "Nenhum comentário";
-            }
+            if (comentario == null || comentario.isEmpty()) comentario = "Nenhum comentário";
 
             String dataFormatada = dataRaw;
             try {
@@ -145,6 +126,6 @@ public class MinhaContaActivity extends AppCompatActivity {
         cursor.close();
 
         rvWatched.setLayoutManager(new LinearLayoutManager(this));
-        rvWatched.setAdapter(new FilmesAvaliadosAdapter(filmes, db, currentUserEmail, editRatingLauncher));
+        rvWatched.setAdapter(new FilmesAvaliadosAdapter(filmes, db, currentUserEmail, null));
     }
 }

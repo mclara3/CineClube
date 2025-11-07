@@ -24,7 +24,8 @@
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:queryHint="Pesquisar filmes..."
+            android:queryHint="Pesquisar por nome ou gênero..."
+
             android:iconifiedByDefault="false"
             android:background="@android:color/transparent" />
     </com.google.android.material.appbar.MaterialToolbar>

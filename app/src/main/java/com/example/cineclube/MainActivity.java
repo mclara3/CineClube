@@ -1,94 +1,63 @@
 package com.example.cineclube;
 
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import java.util.ArrayList;
 import java.util.List;
+import android.content.Intent;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends BaseActivity {
 
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
-    private String currentUserEmail; // email do usuário logado
+    private String currentUserEmail;
     private RecyclerView rvMovies;
     private List<Filme> filmes;
-
     private int idUsuario;
-
+    private SessionManager session; // sessão
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+
+        session = new SessionManager(this);
+
+        // Pega o email do intent ou da sessão
         currentUserEmail = getIntent().getStringExtra("user_email");
-        idUsuario = getIntent().getIntExtra("id_usuario", -1);
+        if (currentUserEmail == null) {
+            if (session.isLoggedIn()) {
+                currentUserEmail = session.getUserEmail();
+            } else {
+                // caso não tenha sessão, volta para login
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                return;
+            }
+        }
 
-
-        // Inicializa banco
         dbHelper = new DatabaseHelper(this);
         db = dbHelper.getWritableDatabase();
         dbHelper.insertInitialMovies(db);
+
+        // pega id do usuário
+        idUsuario = getIntent().getIntExtra("id_usuario", -1);
+        if (idUsuario == -1) {
+            UsuarioDAO usuarioDAO = new UsuarioDAO(this);
+            idUsuario = usuarioDAO.getIdUsuarioPorEmail(currentUserEmail);
+        }
 
         rvMovies = findViewById(R.id.rvMovies);
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
 
         filmes = loadFilmesFromDB();
-        FilmesAdapterMain adapter = new FilmesAdapterMain(this, filmes, idUsuario);
-        rvMovies.setAdapter(adapter);
+        rvMovies.setAdapter(new FilmesAdapterMain(this, filmes, idUsuario, currentUserEmail));
 
-
-
-
-        // BottomNavigationView
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-        bottomNav.setSelectedItemId(R.id.nav_home);
-        bottomNav.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_home) {
-                return true;
-            } else if (item.getItemId() == R.id.nav_conta) {
-                Intent intent = new Intent(MainActivity.this, MinhaContaActivity.class);
-                intent.putExtra("user_email", currentUserEmail);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                return true;
-            }
-            return false;
-        });
-
-
-
-        // Ajusta padding edge-to-edge
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-        bottomNav.setSelectedItemId(R.id.nav_home);
-
-        // Atualiza lista de filmes ao voltar para a tela
-        filmes.clear();
-        filmes.addAll(loadFilmesFromDB());
-        rvMovies.getAdapter().notifyDataSetChanged();
+        setupBottomNav(R.id.nav_home, currentUserEmail);
     }
 
     private List<Filme> loadFilmesFromDB() {
@@ -107,11 +76,9 @@ public class MainActivity extends AppCompatActivity {
             String genero = cursor.getString(3);
             int ano = cursor.getInt(4);
             double notaMedia = cursor.getDouble(5);
-
             lista.add(new Filme(id, titulo, descricao, genero, ano, notaMedia));
         }
         cursor.close();
         return lista;
     }
-
 }

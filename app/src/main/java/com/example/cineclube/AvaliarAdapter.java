@@ -19,12 +19,14 @@ public class AvaliarAdapter extends RecyclerView.Adapter<AvaliarAdapter.FilmeVie
     private Context context;
     private List<Filme> listaFilmes;
     private int idUsuario;
+    private String userEmail;
 
     // construtor atualizado para receber o ID do usuário
-    public AvaliarAdapter(Context context, List<Filme> listaFilmes, int idUsuario) {
+    public AvaliarAdapter(Context context, List<Filme> listaFilmes, int idUsuario, String userEmail) {
         this.context = context;
         this.listaFilmes = listaFilmes;
         this.idUsuario = idUsuario;
+        this.userEmail = userEmail;
     }
 
     @NonNull
@@ -50,6 +52,8 @@ public class AvaliarAdapter extends RecyclerView.Adapter<AvaliarAdapter.FilmeVie
             intent.putExtra("id_filme", filme.getId());   // ID do filme
             intent.putExtra("id_usuario", idUsuario);     // ID do usuário logado
             intent.putExtra("filme_titulo", filme.getTitulo());
+            intent.putExtra("user_email", userEmail);
+
             context.startActivity(intent);
         });
 
